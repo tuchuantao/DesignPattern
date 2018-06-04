@@ -12,16 +12,16 @@
 接口隔离原则（ISP）：客户端不应该依赖它不需要的接口，多用组合，少用继承
 <br/><br/>
 设计模式主要分三个类型:  (总计23种)
-* 创建型：（5种)
+* 创建型：（5种) <br/>
 &emsp;&emsp;工方法模式、抽象工厂模式、单例模式、建造者模式
-* 结构型：（7种)
+* 结构型：（7种) <br/>
 &emsp;&emsp;适配器模式、装饰模式、代理模式、外观模式、桥接模式、组合模式、享元模式
-* 行为型：（11种）
+* 行为型：（11种）<br/>
 &emsp;&emsp;策略模式、模板方法模式、观察者模式、迭代器模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式
 
 <br/>
 ## UML图解：
-<img src="./imgs/UML.png" alt="UML图解" align=left />
+<img src="./imgs/UML.png" alt="UML图解" align=center />
 <br/>
 
 # 二、创建型模式
@@ -30,13 +30,13 @@
 <br/>
 ## 工厂方法模式（Factory Method Pattern）
 <b>简单工厂类图：</b><br/>
-<img src="./imgs/SimpleFactory.jpg" alt="简单工厂类图" align=left /> <br/>
+<img src="./imgs/SimpleFactory.jpg" alt="简单工厂类图" align=center /> <br/>
 <b>工厂方法类图：</b><br/>
-<img src="./imgs/FactoryMethod.png" alt="工厂方法类图" align=left /> <br/>
+<img src="./imgs/FactoryMethod.png" alt="工厂方法类图" align=center /> <br/>
 工厂方法模式是简单工厂模式的进一步抽象和推广。由于使用了面向对象的多态性，工厂方法模式保持了简单工厂模式的优点，而且克服了它的缺点。在工厂方法模式中，核心的工厂类不再负责所有产品的创建，而是将具体创建工作交给子类去做。这个核心类仅仅负责给出具体工厂必须实现的接口，而不负责哪一个产品类被实例化这种细节，这使得工厂方法模式可以允许系统在不修改工厂角色的情况下引进新产品。
 <br/>
 <b>使用反射实现工厂模式：</b><br/>
-~
+'''
 public abstract class Factory {
   public abstract <T extends Product> T createProduct(Class<T> clz);
 }
@@ -52,4 +52,4 @@ public class ConcreteFactory extends Factory {
     return (T) p;
   }
 }
-~
+'''
