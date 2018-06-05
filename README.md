@@ -12,17 +12,16 @@
 接口隔离原则（ISP）：客户端不应该依赖它不需要的接口，多用组合，少用继承
 <br/><br/>
 设计模式主要分三个类型:  (总计23种)
-* 创建型：（5种) <br/>
+* <b>创建型：（5种) </b><br/>
 &emsp;&emsp;工方法模式、抽象工厂模式、单例模式、建造者模式
-* 结构型：（7种) <br/>
+* <b>结构型：（7种) </b><br/>
 &emsp;&emsp;适配器模式、装饰模式、代理模式、外观模式、桥接模式、组合模式、享元模式
-* 行为型：（11种）<br/>
+* <b>行为型：（11种）</b><br/>
 &emsp;&emsp;策略模式、模板方法模式、观察者模式、迭代器模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式
-
 <br/>
+
 ## UML图解：
 <img src="./imgs/UML.png" alt="UML图解" align=center />
-<br/>
 
 ***
 
@@ -41,8 +40,7 @@
 <b>使用反射实现工厂模式：</b>
 <br/>
 
-'''
-
+`
 public abstract class Factory {
   public abstract <T extends Product> T createProduct(Class<T> clz);
 }
@@ -58,5 +56,4 @@ public class ConcreteFactory extends Factory {
     return (T) p;
   }
 }
-
-'''
+`
