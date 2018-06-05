@@ -18,7 +18,6 @@
 &emsp;&emsp;适配器模式、装饰模式、代理模式、外观模式、桥接模式、组合模式、享元模式
 * <b>行为型：（11种）</b><br/>
 &emsp;&emsp;策略模式、模板方法模式、观察者模式、迭代器模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式
-<br/>
 
 ## UML图解：
 <img src="./imgs/UML.png" alt="UML图解" align=center />
@@ -40,20 +39,21 @@
 <b>使用反射实现工厂模式：</b>
 <br/>
 
-`
+```
 public abstract class Factory {
-  public abstract <T extends Product> T createProduct(Class<T> clz);
+    public abstract <T extends Product> T createProduct(Class<T> clz);
 }
 
 public class ConcreteFactory extends Factory {
-  @Override
-  public <T extends Product> T createProduct(Class<T> clz) {
-    Product p = null;
-    try {
-      p = (Product) Class.from(clz.getName()).newInstance();
-    } catch(Exception e) {
+
+    @Override
+    public <T extends Product> T createProduct(Class<T> clz) {
+        Product p = null;
+        try {
+            p = (Product) Class.from(clz.getName()).newInstance();
+        } catch(Exception e) {
+       }
+        return (T) p;
     }
-    return (T) p;
-  }
 }
-`
+```
