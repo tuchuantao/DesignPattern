@@ -68,4 +68,6 @@ public class ConcreteFactory extends Factory {
 * 将创建对象的任务委托给多个工厂子类中的某一个，客户端在使用时可以无须关心是哪一个工厂子类创建产品子类，需要时再动态指定，可将具体工厂类的类名存储在配置文件或数据库中。
 
 ### 抽象工厂模式（Abstract Factory Pattern）
-&emsp;&emsp;为创建一组相关或者是相互依赖的对象提供一个接口，而不需要指定它们的具体类。
+&emsp;&emsp;为创建一组相关或者是相互依赖的对象提供一个接口，而不需要指定它们的具体类。<br/>
+类图:
+<img src="./imgs/AbstractFactory.jpg" alt="" align=center />
