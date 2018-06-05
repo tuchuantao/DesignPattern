@@ -106,8 +106,24 @@ public static Singleton getInstance() {
 </br>&emsp;d>B进入synchronized块，由于instance此时不是null，因此它马上离开了synchronized块并将结果返回给调用该方法的程序。
 </br>&emsp;e>此时B线程打算使用Singleton实例，却发现它没有被初始化，于是错误发生了。
 
-
-
+<b>不同的类装载器，可能会导致产生多个单例对象:</b><br/>
+```
+public static Class getClass(String className) throws ClassNotFoundException {
+    ClassLoader cl = Thread.currentThread().getContextClassLoader();
+    if (cl == null) {
+        cl = Singleton.class.getClassLoader();
+    }
+    return cl.loadClass(className);
+}
+```
+<b>如果Singleton实现了Serializable接口，反序列化时可能产生多个实例对象：</b><br/>
+```
+重写readResolve方法
+private Object readResolve() {
+    return instance;
+}
+```
+### 4. 建造者模式（Builder Pattern）
 
 
 
