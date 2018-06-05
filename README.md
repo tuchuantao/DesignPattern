@@ -124,8 +124,8 @@ private Object readResolve() {
 }
 ```
 ### 4. 建造者模式（Builder Pattern）
-<b>类图：</b>
-<img src="./imgs/BuilderPattern.png" alt="建造者模式类图" align=center />
+<b>类图：</b><br/>
+<img src="./imgs/BuilderPattern.png" alt="建造者模式类图" align=center /><br/>
 建造者模式的结构中还引入了一个指挥者类Director，该类的作用主要有两个：一方面它隔离了客户与生产过程；另一方面它负责控制产品的生成过程。指挥者针对抽象建造者编程，客户端只需要知道具体建造者的类型，即可通过指挥者类调用建造者的相关方法，返回一个完整的产品对象。
 在客户端代码中，无须关心产品对象的具体组装过程，只需确定具体建造者的类型即可，建造者模式将复杂对象 的构建与对象的表现分离开来，这样使得同样的构建过程可以创建出不同的表现。
 #### 优点：
@@ -141,4 +141,7 @@ private Object readResolve() {
 * 需要生成的产品对象的属性相互依赖，需要指定其生成顺序。
 * 对象的创建过程独立于创建该对象的类。在建造者模式中引入了指挥者类，将创建过程封装在指挥者类中，而不在建造者类中。
 * 隔离复杂对象的创建和使用，并使得相同的创建过程可以创建不同的产品。
-
+### 5. 原型模式（Prototype Pattern）
+<b>类图：</b><br/>
+<img src="./imgs/PrototypePattern.png" alt="原型模式类图" alt= center/> <br/>
+<b>浅复制 & 深复制</b>
