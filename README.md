@@ -20,7 +20,7 @@
 &emsp;&emsp;策略模式、模板方法模式、观察者模式、迭代器模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式
 
 ### UML图解：
-<img src="./imgs/UML.png" alt="UML图解" align=center />
+<img "./imgs/UML.png" alt="UML图解" align=center />
 
 ***
 
@@ -30,9 +30,9 @@
 <br/>
 ### 1. 工厂方法模式（Factory Method Pattern）
 <b>简单工厂类图：</b><br/>
-<img src="./imgs/SimpleFactory.jpg" alt="简单工厂类图" align=center /> <br/>
+<img "./imgs/SimpleFactory.jpg" alt="简单工厂类图" align=center /> <br/>
 <b>工厂方法类图：</b><br/>
-<img src="./imgs/FactoryMethod.png" alt="工厂方法类图" align=center /> <br/>
+<img "./imgs/FactoryMethod.png" alt="工厂方法类图" align=center /> <br/>
 <br/>
 &emsp;&emsp;工厂方法模式是简单工厂模式的进一步抽象和推广。由于使用了面向对象的多态性，工厂方法模式保持了简单工厂模式的优点，而且克服了它的缺点。在工厂方法模式中，核心的工厂类不再负责所有产品的创建，而是将具体创建工作交给子类去做。这个核心类仅仅负责给出具体工厂必须实现的接口，而不负责哪一个产品类被实例化这种细节，这使得工厂方法模式可以允许系统在不修改工厂角色的情况下引进新产品。
 <br/>
@@ -71,7 +71,7 @@ public class ConcreteFactory extends Factory {
 &emsp;&emsp;为创建一组相关或者是相互依赖的对象提供一个接口，而不需要指定它们的具体类。<br/>
 <b>类图:</b>
 <br/>
-<img src="./imgs/AbstractFactory.jpg" alt="" align=center />
+<img "./imgs/AbstractFactory.jpg" alt="" align=center />
 #### 优点：
 * 抽象工厂模式隔离了具体类的生成，使得客户并不需要知道什么被创建。由于这种隔离，更换一个具体工厂就变得相对容易。所有的具体工厂都实现了抽象工厂中定义的那些公共接口，因此只需改变具体工厂的实例，就可以在某种程度上改变整个软件系统的行为。另外，应用抽象工厂模式可以实现高内聚低耦合的设计目的，因此抽象工厂模式得到了广泛的应用。
 * 当一个产品族中的多个对象被设计成一起工作时，它能够保证客户端始终只使用同一个产品族中的对象。这对一些需要根据当前环境来决定其行为的软件系统来说，是一种非常实用的设计模式。
@@ -125,7 +125,7 @@ private Object readResolve() {
 ```
 ### 4. 建造者模式（Builder Pattern）
 <b>类图：</b><br/>
-<img src="./imgs/BuilderPattern.png" alt="建造者模式类图" align=center /><br/>
+<img "./imgs/BuilderPattern.png" alt="建造者模式类图" align=center /><br/>
 建造者模式的结构中还引入了一个指挥者类Director，该类的作用主要有两个：一方面它隔离了客户与生产过程；另一方面它负责控制产品的生成过程。指挥者针对抽象建造者编程，客户端只需要知道具体建造者的类型，即可通过指挥者类调用建造者的相关方法，返回一个完整的产品对象。
 在客户端代码中，无须关心产品对象的具体组装过程，只需确定具体建造者的类型即可，建造者模式将复杂对象 的构建与对象的表现分离开来，这样使得同样的构建过程可以创建出不同的表现。
 #### 优点：
@@ -143,7 +143,7 @@ private Object readResolve() {
 * 隔离复杂对象的创建和使用，并使得相同的创建过程可以创建不同的产品。
 ### 5. 原型模式（Prototype Pattern）
 <b>类图：</b><br/>
-<img src="./imgs/PrototypePattern.png" alt="原型模式类图" align=center/> <br/>
+<img "./imgs/PrototypePattern.png" alt="原型模式类图" align=center/> <br/>
 <b>浅复制 & 深复制</b>
 
 ***
@@ -159,11 +159,11 @@ private Object readResolve() {
 ### 1、适配器模式(Adapter Pattern)
 &emsp;&emsp;将一个类的接口转换成客户希望的另一个接口。Adapter模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。<br/>
 <b>1)、类适配:</b><br/>
-<img src="./imgs/Adapter_classModel.jpg" alt="类适配" align=center /> <br/>
+<img "./imgs/Adapter_classModel.jpg" alt="类适配" align=center /> <br/>
 <b>2)、对象适配:</b><br/>
-<img src="./imgs/Adapter_ObjectModel.jpg" alt="对象适配" align=center /> <br/>
+<img "./imgs/Adapter_ObjectModel.jpg" alt="对象适配" align=center /> <br/>
 <b>3)、接口适配:</b><br/>
-<img src="./imgs/Adapter_InterfaceModel.png" alt="对象适配" align=center /> <br/>
+<img "./imgs/Adapter_InterfaceModel.png" alt="对象适配" align=center /> <br/>
 #### 优点：
 * 将目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，而无须修改原有代码。
 * 增加了类的透明性和复用性，将具体的实现封装在适配者类中，对于客户端类来说是透明的，而且提高了适配者的复用性。
@@ -185,7 +185,7 @@ private Object readResolve() {
 ### 2、装饰模式（Decorator Pattern）
 &emsp;&emsp;动态的给对象添加一些额外的职责。就功能来说装饰模式相比生成子类更为灵活。<br/>
 <b>类图：<b/><br/>
-<img src="./imgs/Decorator.jpg" alt="装饰模式" align="center"/> <br/>
+<img "./imgs/Decorator.jpg" alt="装饰模式" align="center"/> <br/>
 #### 优点：
 * 装饰模式与继承关系的目的都是要扩展对象的功能，但是装饰模式可以提供比继承更多的灵活性。
 * 可以通过一种动态的方式来扩展一个对象的功能，通过配置文件可以在运行时选择不同的装饰器，从而实现不同的行为。
@@ -198,7 +198,29 @@ private Object readResolve() {
 * 在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责。
 * 需要动态地给一个对象增加功能，这些功能也可以动态地被撤销。
 * 当不能采用继承的方式对系统进行扩充或者采用继承不利于系统扩展和维护时。不能采用继承的情况主要有两类：第一类是系统中存在大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长；第二类是因为类定义不能继承（如final类）.
-
+### 3、代理模式（Proxy Pattern）
+&emsp;&emsp;为其他对象提供一种代理以控制对这个对象的访问。<br/>
+<b>类图：</b><br/>
+<img "./imgs/Proxy.png" alt="代理模式" align=center/> <br/>
+静态代理 & 动态代理（InvocationHandler + Proxy）<br/>
+#### 优点：
+* 代理模式能够协调调用者和被调用者，在一定程度上降低了系统的耦合度。
+* 远程代理使得客户端可以访问在远程机器上的对象，远程机器可能具有更好的计算性能与处理速度，可以快速响应并处理客户端请求。
+* 虚拟代理通过使用一个小对象来代表一个大对象，可以减少系统资源的消耗，对系统进行优化并提高运行速度。
+* 保护代理可以控制对真实对象的使用权限。
+#### 缺点：
+* 由于在客户端和真实主题之间增加了代理对象，因此有些类型的代理模式可能会造成请求的处理速度变慢。
+* 实现代理模式需要额外的工作，有些代理模式的实现非常复杂。
+#### 适用环境：
+根据代理模式的使用目的，常见的代理模式有以下几种类型：
+* 远程(Remote)代理：为一个位于不同的地址空间的对象提供一个本地 的代理对象，这个不同的地址空间可以是在同一台主机中，也可是在 另一台主机中，远程代理又叫做大使(Ambassador)。
+* 虚拟(Virtual)代理：如果需要创建一个资源消耗较大的对象，先创建一个消耗相对较小的对象来表示，真实对象只在需要时才会被真正创建。
+* Copy-on-Write代理：它是虚拟代理的一种，把复制（克隆）操作延迟 到只有在客户端真正需要时才执行。一般来说，对象的深克隆是一个 开销较大的操作，Copy-on-Write代理可以让这个操作延迟，只有对象被用到的时候才被克隆。
+* 保护(Protect or Access)代理：控制对一个对象的访问，可以给不同的用户提供不同级别的使用权限。
+* 缓冲(Cache)代理：为某一个目标操作的结果提供临时的存储空间，以便多个客户端可以共享这些结果。
+* 防火墙(Firewall)代理：保护目标不让恶意用户接近。
+* 同步化(Synchronization)代理：使几个用户能够同时使用一个对象而没有冲突。
+* 智能引用(Smart Reference)代理：当一个对象被引用时，提供一些额外的操作，如将此对象被调用的次数记录下来等。
 
 
 
