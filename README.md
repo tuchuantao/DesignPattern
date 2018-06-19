@@ -492,6 +492,7 @@ private Object readResolve() {
 <br/>
 <br/>
 <br/>
+
 秉着不重复造轮子的思想，参考了下面的优秀文章：
 1. https://github.com/simple-android-framework-exchange/android_design_patterns_analysis
 2. https://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/behavioral.html
