@@ -488,8 +488,10 @@ private Object readResolve() {
 * 可以将一个需要解释执行的语言中的句子表示为一个抽象语法树。
 * 一些重复出现的问题可以用一种简单的语言来进行表达。
 * 一个语言的文法较为简单。
-
-
+<br/>
+<br/>
+<br/>
+<br/>
 秉着不重复造轮子的思想，参考了下面的优秀文章：
 1. https://github.com/simple-android-framework-exchange/android_design_patterns_analysis
 2. https://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/behavioral.html
