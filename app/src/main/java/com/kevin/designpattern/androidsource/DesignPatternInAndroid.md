@@ -1,4 +1,4 @@
-都是基于API 26
+基于API 26
 ### SystemService     (Singleton)
 
 ```
@@ -22,7 +22,7 @@ final class SystemServiceRegistry {
 
     ...
 
-    static { // 静态语句块，第一次类加载时就初始化，且只执行一次
+    static { <font color=#0099ff>// 静态语句块，第一次类加载时就初始化，且只执行一次</font>
         registerService(Context.ACCESSIBILITY_SERVICE, AccessibilityManager.class,
                 new CachedServiceFetcher<AccessibilityManager>() {
             @Override
