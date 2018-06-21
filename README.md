@@ -96,7 +96,12 @@ public static Singleton getInstance() {
     return instance;  
 }
 ```
+（1）给Singleton的实例分配内存；<br/>
+（2）调用Singleton()的构造函数，初始化成员字段；<br/>
+（3）将instance对象指向分配的内存空间（此时instance不再是null了）<br/>
+
 <b>DCL的错误情况：</b><br/>
+JDK1.5之前JMM(Java Memory Model)中Cache、寄存器到内存回写顺序的规定，上面第二和第三的顺序是无法保证的)。JDK1.5之后，volatile字段
 在Java指令中创建对象和赋值操作是分开进行的，也就是说instance = new Singleton();语句是分两步执行的。但是JVM并不保证这两个操作的先后顺序，也就是说有可能JVM会为新的Singleton实例分配空间，然后直接赋值给instance成员，然后再去初始化这个Singleton实例。这样就可能出错了，我们以A、B两个线程为例：
 </br>&emsp;a>A、B线程同时进入了第一个if判断
 </br>&emsp;b>A首先进入synchronized块，由于instance为null，所以它执行instance = new Singleton();
