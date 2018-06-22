@@ -23,6 +23,7 @@ final class SystemServiceRegistry {
     ...
 
     static { // 静态语句块，第一次类加载时就初始化，且只执行一次
+        // 注册类的访问者   ServiceFetcher
         registerService(Context.ACCESSIBILITY_SERVICE, AccessibilityManager.class,
                 new CachedServiceFetcher<AccessibilityManager>() {
             @Override
@@ -38,7 +39,6 @@ final class SystemServiceRegistry {
             }});
         ...
     }
-
 ```
 
 ### LayoutInflater && Activity.setContentView()
@@ -114,7 +114,6 @@ LayoutInflater.inflate():
             parser.close();
         }
     }
-
 
     public View inflate(XmlPullParser parser, @Nullable ViewGroup root, boolean attachToRoot) {
         synchronized (mConstructorArgs) {
@@ -212,7 +211,7 @@ LayoutInflater.inflate():
         }
         ...
     }
-
+00
 
 // Inflate all children under temp against its context.
 // rInflateChildren(parser, temp, attrs, true);  -> rInflate()
@@ -450,6 +449,7 @@ public final class ViewRootImpl implements ViewParent,
                 requestLayout();
 
                 try {
+                    // 向WindowManagerService发起请求
                     res = mWindowSession.addToDisplay(mWindow, mSeq, mWindowAttributes,
                             getHostVisibility(), mDisplay.getDisplayId(),
                             mAttachInfo.mContentInsets, mAttachInfo.mStableInsets,
@@ -523,7 +523,6 @@ public final class ViewRootImpl implements ViewParent,
 
 <b>WMS简化结构：</b><br/>
 <img src="../../../../../../../../imgs/WindowManagerService.png" align=center /> <br/>
-
 
 
 
