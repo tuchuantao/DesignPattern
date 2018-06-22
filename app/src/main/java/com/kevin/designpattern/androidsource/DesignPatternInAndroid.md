@@ -22,7 +22,7 @@ final class SystemServiceRegistry {
 
     ...
 
-    static { <font color=#0099ff>// 静态语句块，第一次类加载时就初始化，且只执行一次</font>
+    static { // 静态语句块，第一次类加载时就初始化，且只执行一次
         registerService(Context.ACCESSIBILITY_SERVICE, AccessibilityManager.class,
                 new CachedServiceFetcher<AccessibilityManager>() {
             @Override
@@ -256,3 +256,280 @@ LayoutInflater.inflate():
         }
     }
 ```
+
+### WindowManger
+
+```
+    // Dialog的构造函数
+    Dialog(@NonNull Context context, @StyleRes int themeResId, boolean createContextThemeWrapper) {
+        ...
+        mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+
+        final Window w = new PhoneWindow(mContext);
+        mWindow = w;
+        // 设置dialog Window的WindowManger
+        w.setWindowManager(mWindowManager, null, null);
+    }
+
+
+    // Window的setWindowManager()
+    public void setWindowManager(WindowManager wm, IBinder appToken, String appName,
+            boolean hardwareAccelerated) {
+        ...
+        // 此时将WindowManager与Window关联起来
+        mWindowManager = ((WindowManagerImpl)wm).createLocalWindowManager(this);
+    }
+```
+
+WindowManagerImpl：
+```
+public final class WindowManagerImpl implements WindowManager {
+    private final WindowManagerGlobal mGlobal = WindowManagerGlobal.getInstance();
+    ...
+    // 在ConextImpl(SystemServiceRegistry)中注册时调用的是此方法，parentWindow为空
+    public WindowManagerImpl(Context context) {
+        this(context, null);
+    }
+
+    private WindowManagerImpl(Context context, Window parentWindow) {
+        mContext = context;
+        mParentWindow = parentWindow;
+    }
+
+    public WindowManagerImpl createLocalWindowManager(Window parentWindow) {
+        return new WindowManagerImpl(mContext, parentWindow);
+    }
+
+    public WindowManagerImpl createPresentationWindowManager(Context displayContext) {
+        return new WindowManagerImpl(displayContext, mParentWindow);
+    }
+
+    // WindowManger只是个对外暴露的类，具体的工作还是在WindowManagerGlobal中完成
+    @Override
+    public void addView(@NonNull View view, @NonNull ViewGroup.LayoutParams params) {
+        applyDefaultToken(params);
+        mGlobal.addView(view, params, mContext.getDisplay(), mParentWindow);
+    }
+
+    @Override
+    public void updateViewLayout(@NonNull View view, @NonNull ViewGroup.LayoutParams params) {
+        applyDefaultToken(params);
+        mGlobal.updateViewLayout(view, params);
+    }
+
+    @Override
+    public void removeView(View view) {
+        mGlobal.removeView(view, false);
+    }
+
+    @Override
+    public void removeViewImmediate(View view) {
+        mGlobal.removeView(view, true);
+    }
+    ...
+}
+```
+
+WindowManagerGlobal.addView() && 会在ViewRootImpl的构造函数中调用的getWindowSession():
+```
+    public void addView(View view, ViewGroup.LayoutParams params,
+            Display display, Window parentWindow) {
+        ...
+        ViewRootImpl root;
+        View panelParentView = null;
+
+        synchronized (mLock) {
+            ...
+            root = new ViewRootImpl(view.getContext(), display);
+
+            view.setLayoutParams(wparams);
+
+            mViews.add(view);
+            mRoots.add(root);
+            mParams.add(wparams);
+
+            // do this last because it fires off messages to start doing things
+            try {
+                root.setView(view, wparams, panelParentView);
+            } catch (RuntimeException e) {
+                ...
+            }
+        }
+    }
+
+
+    public static IWindowSession getWindowSession() {
+        synchronized (WindowManagerGlobal.class) {
+            if (sWindowSession == null) {
+                try {
+                    InputMethodManager imm = InputMethodManager.getInstance();
+                    // 获取WindowManagerService
+                    IWindowManager windowManager = getWindowManagerService();
+                    // 与WindowManagerService建立一个Session
+                    sWindowSession = windowManager.openSession(
+                            new IWindowSessionCallback.Stub() {
+                                @Override
+                                public void onAnimatorScaleChanged(float scale) {
+                                    ValueAnimator.setDurationScale(scale);
+                                }
+                            },
+                            imm.getClient(), imm.getInputContext());
+                } catch (RemoteException e) {
+                    throw e.rethrowFromSystemServer();
+                }
+            }
+            return sWindowSession;
+        }
+    }
+
+    public static IWindowManager getWindowManagerService() {
+        synchronized (WindowManagerGlobal.class) {
+            if (sWindowManagerService == null) {
+                sWindowManagerService = IWindowManager.Stub.asInterface(
+                        ServiceManager.getService("window"));
+                try {
+                    if (sWindowManagerService != null) {
+                        ValueAnimator.setDurationScale(
+                                sWindowManagerService.getCurrentAnimatorScale());
+                    }
+                } catch (RemoteException e) {
+                    throw e.rethrowFromSystemServer();
+                }
+            }
+            return sWindowManagerService;
+        }
+    }
+```
+ServiceManager.getService():
+ServiceManager.getService()返回的也是IBinder对象，说明Android FrameWork与WMS也是通过Bindle机制通信
+```
+    public static IBinder getService(String name) {
+        try {
+            IBinder service = sCache.get(name);
+            if (service != null) {
+                return service;
+            } else {
+                return Binder.allowBlocking(getIServiceManager().getService(name));
+            }
+        } catch (RemoteException e) {
+            Log.e(TAG, "error in getService", e);
+        }
+        return null;
+    }
+```
+
+ViewRootImpl: ViewRootImpl并不是view，是作为native层与Java层View系统通信的桥梁
+```
+/**
+ * The top of a view hierarchy, implementing the needed protocol between View
+ * and the WindowManager.  This is for the most part an internal implementation
+ * detail of {@link WindowManagerGlobal}.
+ *
+ * {@hide}
+ */
+@SuppressWarnings({"EmptyCatchBlock", "PointlessBooleanExpression"})
+public final class ViewRootImpl implements ViewParent,
+        View.AttachInfo.Callbacks, ThreadedRenderer.DrawCallbacks {
+
+    public ViewRootImpl(Context context, Display display) {
+        // 获取WindowSession，与WindowManagerService建立连接
+        mWindowSession = WindowMan,agerGlobal.getWindowSession();
+        // 保存当前线程，更新UI的线程只能是创建ViewRootImpl时的线程
+        // 因为ViewRootImpl是在UI线程中创建的，所以更新也只能在UI线程
+        mThread = Thread.currentThread();
+    }
+
+
+    public void setView(View view, WindowManager.LayoutParams attrs, View panelParentView) {
+        synchronized (this) {
+            if (mView == null) {
+                ...
+                // Schedule the first layout -before- adding to the window
+                // manager, to make sure we do the relayout before receiving
+                // any other events from the system.
+                requestLayout();
+
+                try {
+                    res = mWindowSession.addToDisplay(mWindow, mSeq, mWindowAttributes,
+                            getHostVisibility(), mDisplay.getDisplayId(),
+                            mAttachInfo.mContentInsets, mAttachInfo.mStableInsets,
+                            mAttachInfo.mOutsets, mInputChannel);
+                } catch (RemoteException e) {
+                }
+                ...
+            }
+        }
+    }
+
+    @Override
+    public void requestLayout() {
+        if (!mHandlingLayoutInLayoutRequest) {
+            checkThread(); //
+            mLayoutRequested = true;
+            scheduleTraversals();
+        }
+    }
+
+    // 最终会走到
+    void doTraversal() {
+        if (mTraversalScheduled) {
+            performTraversals();
+        }
+    }
+
+    private void performTraversals() {
+        // 1、获取Surface对象，用于图形绘制
+        // 2、丈量整个视图树的各个View的大小，performMeasure()函数，   会走到View的mView.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+        // 3、布局整个视图树，performLayout()函数    会走到View的host.layout(0, 0, host.getMeasuredWidth(), host.getMeasuredHeight());
+        // 4、绘制整个视图树，performDraw()函数
+    }
+
+    // 4、绘制
+    private void performDraw() {
+        final boolean fullRedrawNeeded = mFullRedrawNeeded;
+
+        Trace.traceBegin(Trace.TRACE_TAG_VIEW, "draw");
+        try {
+            // 具体的绘制函数
+            draw(fullRedrawNeeded);
+        } finally {
+        }
+    }
+
+    private void draw(boolean fullRedrawNeeded) {
+        // 获取绘制表面
+        Surface surface = mSurface;
+
+        // 绘图表面需要更新
+        if (!dirty.isEmpty() || mIsAnimating || accessibilityFocusDirty) {
+            // 使用GPU绘制，就是开启硬件加速
+            if (mAttachInfo.mThreadedRenderer != null && mAttachInfo.mThreadedRenderer.isEnabled()) {
+                mAttachInfo.mThreadedRenderer.draw(mView, mAttachInfo, this);
+            } else {
+                // 使用CPU绘制
+                if (!drawSoftware(surface, mAttachInfo, xOffset, yOffset, scalingRequired, dirty)) {
+                    return;
+                }
+            }
+        }
+
+        if (animating) {
+            mFullRedrawNeeded = true;
+            scheduleTraversals();
+        }
+    }
+}
+```
+<br/>
+
+<img src="./imgs/UML.png" align="center" /> <br/>
+
+
+
+
+
+
+
+
+
+
