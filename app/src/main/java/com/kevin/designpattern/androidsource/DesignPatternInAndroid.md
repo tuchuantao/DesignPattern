@@ -520,9 +520,9 @@ public final class ViewRootImpl implements ViewParent,
     }
 }
 ```
-<br/>
 
-<img src="./imgs/UML.png" align="center" /> <br/>
+<b>WMS简化结构：</b><br/>
+<img src="../../../../../../../../imgs/WindowManagerService.png" align=center /> <br/>
 
 
 
