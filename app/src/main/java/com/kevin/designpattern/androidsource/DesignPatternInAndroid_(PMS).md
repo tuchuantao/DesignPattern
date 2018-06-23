@@ -1,5 +1,5 @@
-### SystemServer
 Android的所有Java服务都是通过SystemServer进程启动的，并且驻留在SystemServer进程中。SystemServer是在zygate中启动的。
+### SystemServer
 ```
 public final class SystemServer {
 
@@ -55,7 +55,7 @@ public final class SystemServer {
 ```
 
 ### PackageManagerService
-初始化在SystemServer.startBootstrapServices()中
+<b>初始化在SystemServer.startBootstrapServices()中</b>
 ```
     public static PackageManagerService main(Context context, Installer installer,
             boolean factoryTest, boolean onlyCore) {
@@ -198,7 +198,7 @@ public final class SystemServer {
     }
 ```
 
-ParallelPackageParser.submit()：
+<b>ParallelPackageParser.submit()：</b>
 ```
     public void submit(File scanFile, int parseFlags) {
         mService.submit(() -> {
@@ -231,7 +231,7 @@ ParallelPackageParser.submit()：
     }
 ```
 
-PackageParser:
+<b>PackageParser:</b>
 ```
     public Package parsePackage(File packageFile, int flags, boolean useCaches)
             throws PackageParserException {
@@ -286,8 +286,8 @@ PackageParser:
     }
 ```
 
-PackageManagerService：
-PackageParse解析结束后回到PackageManagerService.scanDirLI()函数中：
+<b>PackageManagerService：</b><br/>
+<b>PackageParse解析结束后回到PackageManagerService.scanDirLI()函数中：</b>
 ```
     private void scanDirLI(File dir, int parseFlags, int scanFlags, long currentTime) {
         for (File file : files) {

@@ -6,7 +6,7 @@
     context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 ```
 
-Context的实现类为ContextImpl
+<b>Context的实现类为ContextImpl</b>
 ```
     @Override
     public Object getSystemService(String name) {
@@ -43,7 +43,7 @@ final class SystemServiceRegistry {
 
 ### LayoutInflater && Activity.setContentView()
 
-context.getSystemService()获得的LayoutInflater的对象是PhoneLayoutInflater实例
+<b>context.getSystemService()获得的LayoutInflater的对象是PhoneLayoutInflater实例</b>
 ```
 public class PhoneLayoutInflater extends LayoutInflater {
     private static final String[] sClassPrefixList = { // 系统View类的前缀
@@ -71,7 +71,7 @@ public class PhoneLayoutInflater extends LayoutInflater {
 }
 ```
 
-Activity.setContentView():
+<b>Activity.setContentView():</b>
 ```
     public void setContentView(@LayoutRes int layoutResID) {
         getWindow().setContentView(layoutResID);
@@ -79,7 +79,7 @@ Activity.setContentView():
     }
 ```
 
-PhoneWindow.setContentView():
+<b>PhoneWindow.setContentView():</b>
 ```
     @Override
     public void setContentView(int layoutResID) {
@@ -103,7 +103,7 @@ PhoneWindow.setContentView():
     }
 ```
 
-LayoutInflater.inflate():
+<b>LayoutInflater.inflate():</b>
 ```
     public View inflate(@LayoutRes int resource, @Nullable ViewGroup root, boolean attachToRoot) {
         ...
@@ -211,7 +211,7 @@ LayoutInflater.inflate():
         }
         ...
     }
-00
+
 
 // Inflate all children under temp against its context.
 // rInflateChildren(parser, temp, attrs, true);  -> rInflate()
@@ -280,7 +280,7 @@ LayoutInflater.inflate():
     }
 ```
 
-WindowManagerImpl：
+<b>WindowManagerImpl：</b>
 ```
 public final class WindowManagerImpl implements WindowManager {
     private final WindowManagerGlobal mGlobal = WindowManagerGlobal.getInstance();
@@ -329,7 +329,7 @@ public final class WindowManagerImpl implements WindowManager {
 }
 ```
 
-WindowManagerGlobal.addView() && 会在ViewRootImpl的构造函数中调用的getWindowSession():
+<b>WindowManagerGlobal.addView() && 会在ViewRootImpl的构造函数中调用的getWindowSession():</b>
 ```
     public void addView(View view, ViewGroup.LayoutParams params,
             Display display, Window parentWindow) {
@@ -399,8 +399,8 @@ WindowManagerGlobal.addView() && 会在ViewRootImpl的构造函数中调用的ge
         }
     }
 ```
-ServiceManager.getService():
-ServiceManager.getService()返回的也是IBinder对象，说明Android FrameWork与WMS也是通过Bindle机制通信
+<b>ServiceManager.getService():</b><br/>
+<b>ServiceManager.getService()返回的也是IBinder对象，说明Android FrameWork与WMS也是通过Bindle机制通信</b>
 ```
     public static IBinder getService(String name) {
         try {
@@ -417,7 +417,7 @@ ServiceManager.getService()返回的也是IBinder对象，说明Android FrameWor
     }
 ```
 
-ViewRootImpl: ViewRootImpl并不是view，是作为native层与Java层View系统通信的桥梁
+<b>ViewRootImpl: ViewRootImpl并不是view，是作为native层与Java层View系统通信的桥梁</b>
 ```
 /**
  * The top of a view hierarchy, implementing the needed protocol between View
