@@ -163,8 +163,6 @@ private Object readResolve() {
 <img src="./imgs/Adapter_classModel.jpg" alt="类适配" align=center /> <br/>
 <b>2)、对象适配:</b><br/>
 <img src="./imgs/Adapter_ObjectModel.jpg" alt="对象适配" align=center /> <br/>
-<b>3)、接口适配:</b><br/>
-<img src="./imgs/Adapter_InterfaceModel.png" alt="对象适配" align=center /> <br/>
 #### 优点：
 * 将目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，而无须修改原有代码。
 * 增加了类的透明性和复用性，将具体的实现封装在适配者类中，对于客户端类来说是透明的，而且提高了适配者的复用性。
@@ -182,7 +180,6 @@ private Object readResolve() {
 #### 适用环境：
 * 想要建立一个可以重复使用的类，用于与一些彼此之间没有太大关联的一些类，包括一些可能在将来引进的类一起工作。
 * 系统需要使用现有的类，而这些类的接口不符合系统的需要。
-* 想要建立一个可以重复使用的类，用于与一些彼此之间没有太大关联的一些类，包括一些可能在将来引进的类一起工作。
 ### 2、装饰模式（Decorator Pattern）
 &emsp;&emsp;动态的给对象添加一些额外的职责。就功能来说装饰模式相比生成子类更为灵活。<br/>
 <b>类图：</b><br/>
