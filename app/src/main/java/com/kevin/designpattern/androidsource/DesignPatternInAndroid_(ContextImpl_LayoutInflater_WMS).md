@@ -219,7 +219,7 @@ public class PhoneLayoutInflater extends LayoutInflater {
     void rInflate(XmlPullParser parser, View parent, Context context,
             AttributeSet attrs, boolean finishInflate) throws XmlPullParserException, IOException {
 
-        final int depth = parser.getDepth(); // 深度优先来构建视图树
+        final int depth = parser.getDepth();
         while (((type = parser.next()) != XmlPullParser.END_TAG ||
                 parser.getDepth() > depth) && type != XmlPullParser.END_DOCUMENT) {
 
@@ -246,7 +246,7 @@ public class PhoneLayoutInflater extends LayoutInflater {
                 final ViewGroup viewGroup = (ViewGroup) parent;
                 final ViewGroup.LayoutParams params = viewGroup.generateLayoutParams(attrs);
                 // 递归调用
-                rInflateChildren(parser, view, attrs, true);
+                rInflateChildren(parser, view, attrs, true); // 深度优先来构建视图树
                 viewGroup.addView(view, params);
             }
         }
